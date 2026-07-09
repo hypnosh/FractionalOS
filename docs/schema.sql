@@ -546,11 +546,99 @@ ALTER TABLE "public"."Channel" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "public"."Contact" ENABLE ROW LEVEL SECURITY;
 
 
-CREATE POLICY "Enable read access for all users" ON "public"."Contact" FOR SELECT USING (true);
+CREATE POLICY "Enable insert for authenticated users only" ON "public"."Activity" FOR INSERT TO "authenticated" WITH CHECK (true);
 
 
 
-CREATE POLICY "Enable read access for all users" ON "public"."Organization" FOR SELECT USING (true);
+CREATE POLICY "Enable insert for authenticated users only" ON "public"."Channel" FOR INSERT TO "authenticated" WITH CHECK (true);
+
+
+
+CREATE POLICY "Enable insert for authenticated users only" ON "public"."Contact" FOR INSERT TO "authenticated" WITH CHECK (true);
+
+
+
+CREATE POLICY "Enable insert for authenticated users only" ON "public"."Engagement" FOR INSERT TO "authenticated" WITH CHECK (true);
+
+
+
+CREATE POLICY "Enable insert for authenticated users only" ON "public"."Expense" FOR INSERT TO "authenticated" WITH CHECK (true);
+
+
+
+CREATE POLICY "Enable insert for authenticated users only" ON "public"."Invoice" FOR INSERT TO "authenticated" WITH CHECK (true);
+
+
+
+CREATE POLICY "Enable insert for authenticated users only" ON "public"."Opportunity" FOR INSERT TO "authenticated" WITH CHECK (true);
+
+
+
+CREATE POLICY "Enable insert for authenticated users only" ON "public"."OpportunityContact" FOR INSERT TO "authenticated" WITH CHECK (true);
+
+
+
+CREATE POLICY "Enable insert for authenticated users only" ON "public"."Organization" FOR INSERT TO "authenticated" WITH CHECK (true);
+
+
+
+CREATE POLICY "Enable insert for authenticated users only" ON "public"."Payment" FOR INSERT TO "authenticated" WITH CHECK (true);
+
+
+
+CREATE POLICY "Enable insert for authenticated users only" ON "public"."Proposal" FOR INSERT TO "authenticated" WITH CHECK (true);
+
+
+
+CREATE POLICY "Enable insert for authenticated users only" ON "public"."Task" FOR INSERT TO "authenticated" WITH CHECK (true);
+
+
+
+CREATE POLICY "Enable read access for authenticated users" ON "public"."Activity" FOR SELECT TO "authenticated" USING (true);
+
+
+
+CREATE POLICY "Enable read access for authenticated users" ON "public"."Channel" FOR SELECT TO "authenticated" USING (true);
+
+
+
+CREATE POLICY "Enable read access for authenticated users" ON "public"."Contact" FOR SELECT TO "authenticated" USING (true);
+
+
+
+CREATE POLICY "Enable read access for authenticated users" ON "public"."Engagement" FOR SELECT TO "authenticated" USING (true);
+
+
+
+CREATE POLICY "Enable read access for authenticated users" ON "public"."Expense" FOR SELECT TO "authenticated" USING (true);
+
+
+
+CREATE POLICY "Enable read access for authenticated users" ON "public"."Invoice" FOR SELECT TO "authenticated" USING (true);
+
+
+
+CREATE POLICY "Enable read access for authenticated users" ON "public"."Opportunity" FOR SELECT TO "authenticated" USING (true);
+
+
+
+CREATE POLICY "Enable read access for authenticated users" ON "public"."OpportunityContact" FOR SELECT TO "authenticated" USING (true);
+
+
+
+CREATE POLICY "Enable read access for authenticated users" ON "public"."Organization" FOR SELECT TO "authenticated" USING (true);
+
+
+
+CREATE POLICY "Enable read access for authenticated users" ON "public"."Payment" FOR SELECT TO "authenticated" USING (true);
+
+
+
+CREATE POLICY "Enable read access for authenticated users" ON "public"."Proposal" FOR SELECT TO "authenticated" USING (true);
+
+
+
+CREATE POLICY "Enable read access for authenticated users" ON "public"."Task" FOR SELECT TO "authenticated" USING (true);
 
 
 

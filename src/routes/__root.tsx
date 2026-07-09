@@ -78,18 +78,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Nexus CXO — Fractional CXO Command Center" },
+      { title: "FractionalOS — Fractional CXO Command Center" },
       {
         name: "description",
         content:
-          "Fractional CXO operating dashboard: organizations, contacts and opportunities in one calm workspace.",
+          "Fractional CXO operating system: organizations, contacts and opportunities in one calm workspace.",
       },
       { name: "theme-color", content: "#18181b" },
-      { property: "og:title", content: "Nexus CXO — Fractional CXO Command Center" },
+      { property: "og:title", content: "FractionalOS — Fractional CXO Command Center" },
       {
         property: "og:description",
         content:
-          "Fractional CXO operating dashboard: organizations, contacts and opportunities in one calm workspace.",
+          "Fractional CXO operating system: organizations, contacts and opportunities in one calm workspace.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

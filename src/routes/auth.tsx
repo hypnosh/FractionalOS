@@ -7,7 +7,7 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in — Nexus CXO" },
+      { title: "Sign in — FractionalOS" },
       { name: "description", content: "Sign in to your fractional CXO workspace." },
       { name: "robots", content: "noindex" },
     ],
