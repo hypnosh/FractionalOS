@@ -1,0 +1,28 @@
+# Cloudflare Workers deployment config for the TanStack Start SSR app.
+#
+# The Vite build (via nitro's cloudflare preset in @lovable.dev/vite-tanstack-config)
+# emits a Workers-compatible bundle to `.output/`:
+#   - `.output/server/index.mjs` — the SSR fetch handler (src/server.ts)
+#   - `.output/public/`          — hashed client assets + prerendered HTML
+#
+# Deploy with:  bunx wrangler deploy
+# Preview with: bunx wrangler dev
+
+name = "nexus-cxo"
+main = ".output/server/index.mjs"
+compatibility_date = "2025-05-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Serve the built client assets alongside the Worker. Requests for existing
+# files return the asset; everything else falls through to the SSR handler.
+[assets]
+directory = ".output/public"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+# Public (VITE_*) values are inlined at build time, so they don't need to
+# live here. Server-only secrets must be added with:
+#   bunx wrangler secret put SUPABASE_URL
+#   bunx wrangler secret put SUPABASE_PUBLISHABLE_KEY
+#   bunx wrangler secret put SUPABASE_SERVICE_ROLE_KEY   # only if used
+#   bunx wrangler secret put LOVABLE_API_KEY             # only if used
