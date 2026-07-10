@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import type { Opportunity } from "@/lib/db-types";
+import { assertUpdatedRows } from "@/lib/mutation-guards";
 
 type OppRow = Opportunity & {
   Organization: { name: string | null } | null;
@@ -47,8 +48,8 @@ function OpportunitiesPage() {
   const upsert = useMutation({
     mutationFn: async (payload: Partial<Opportunity>) => {
       if (d.editing) {
-        const { error } = await supabase.from("Opportunity").update(payload).eq("id", d.editing.id);
-        if (error) throw error;
+        const result = await supabase.from("Opportunity").update(payload).eq("id", d.editing.id).select("id");
+        assertUpdatedRows(result, "Opportunity");
       } else {
         const { error } = await supabase.from("Opportunity").insert(payload);
         if (error) throw error;
@@ -82,7 +83,7 @@ function OpportunitiesPage() {
     const val = String(fd.get("expected_value") ?? "");
     const prob = String(fd.get("probability") ?? "");
     const org = String(fd.get("org_id") ?? "");
-    const ch = String(fd.get("channel_id") ?? "");
+    const ch = String(fd.get("source_channel_id") ?? "");
     upsert.mutate({
       title: String(fd.get("title") ?? "").trim() || null,
       stage: (fd.get("stage") as string) || null,
@@ -91,7 +92,7 @@ function OpportunitiesPage() {
       probability: prob ? Number(prob) : null,
       expected_close_date: (fd.get("expected_close_date") as string) || null,
       org_id: org ? Number(org) : null,
-      channel_id: ch ? Number(ch) : null,
+      source_channel_id: ch ? Number(ch) : null,
       notes: (fd.get("notes") as string) || null,
     });
   };
@@ -221,11 +222,11 @@ function OpportunitiesPage() {
           </select>
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="channel_id">Channel</Label>
+          <Label htmlFor="source_channel_id">Channel</Label>
           <select
-            id="channel_id"
-            name="channel_id"
-            defaultValue={d.editing?.channel_id ?? ""}
+            id="source_channel_id"
+            name="source_channel_id"
+            defaultValue={d.editing?.source_channel_id ?? ""}
             className="w-full h-9 px-3 rounded-md border border-border bg-surface text-sm"
           >
             <option value="">— None —</option>

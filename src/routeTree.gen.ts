@@ -12,10 +12,21 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedTimelineRouteImport } from './routes/_authenticated/timeline'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedOrganizationsRouteImport } from './routes/_authenticated/organizations'
+import { Route as AuthenticatedDevRouteImport } from './routes/_authenticated/dev'
 import { Route as AuthenticatedContactsRouteImport } from './routes/_authenticated/contacts'
+import { Route as AuthenticatedChannelsRouteImport } from './routes/_authenticated/channels'
+import { Route as AuthenticatedProposalsIndexRouteImport } from './routes/_authenticated/proposals.index'
 import { Route as AuthenticatedOpportunitiesIndexRouteImport } from './routes/_authenticated/opportunities.index'
+import { Route as AuthenticatedInvoicesIndexRouteImport } from './routes/_authenticated/invoices.index'
+import { Route as AuthenticatedEngagementsIndexRouteImport } from './routes/_authenticated/engagements.index'
+import { Route as AuthenticatedProposalsProposalIdRouteImport } from './routes/_authenticated/proposals.$proposalId'
 import { Route as AuthenticatedOpportunitiesOppIdRouteImport } from './routes/_authenticated/opportunities.$oppId'
+import { Route as AuthenticatedInvoicesInvoiceIdRouteImport } from './routes/_authenticated/invoices.$invoiceId'
+import { Route as AuthenticatedEngagementsEngagementIdRouteImport } from './routes/_authenticated/engagements.$engagementId'
+import { Route as AuthenticatedChannelsChannelIdRouteImport } from './routes/_authenticated/channels.$channelId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -31,21 +42,65 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTimelineRoute = AuthenticatedTimelineRouteImport.update({
+  id: '/timeline',
+  path: '/timeline',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedOrganizationsRoute =
   AuthenticatedOrganizationsRouteImport.update({
     id: '/organizations',
     path: '/organizations',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedDevRoute = AuthenticatedDevRouteImport.update({
+  id: '/dev',
+  path: '/dev',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedContactsRoute = AuthenticatedContactsRouteImport.update({
   id: '/contacts',
   path: '/contacts',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedChannelsRoute = AuthenticatedChannelsRouteImport.update({
+  id: '/channels',
+  path: '/channels',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProposalsIndexRoute =
+  AuthenticatedProposalsIndexRouteImport.update({
+    id: '/proposals/',
+    path: '/proposals/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedOpportunitiesIndexRoute =
   AuthenticatedOpportunitiesIndexRouteImport.update({
     id: '/opportunities/',
     path: '/opportunities/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedInvoicesIndexRoute =
+  AuthenticatedInvoicesIndexRouteImport.update({
+    id: '/invoices/',
+    path: '/invoices/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEngagementsIndexRoute =
+  AuthenticatedEngagementsIndexRouteImport.update({
+    id: '/engagements/',
+    path: '/engagements/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedProposalsProposalIdRoute =
+  AuthenticatedProposalsProposalIdRouteImport.update({
+    id: '/proposals/$proposalId',
+    path: '/proposals/$proposalId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedOpportunitiesOppIdRoute =
@@ -54,59 +109,143 @@ const AuthenticatedOpportunitiesOppIdRoute =
     path: '/opportunities/$oppId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedInvoicesInvoiceIdRoute =
+  AuthenticatedInvoicesInvoiceIdRouteImport.update({
+    id: '/invoices/$invoiceId',
+    path: '/invoices/$invoiceId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEngagementsEngagementIdRoute =
+  AuthenticatedEngagementsEngagementIdRouteImport.update({
+    id: '/engagements/$engagementId',
+    path: '/engagements/$engagementId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedChannelsChannelIdRoute =
+  AuthenticatedChannelsChannelIdRouteImport.update({
+    id: '/$channelId',
+    path: '/$channelId',
+    getParentRoute: () => AuthenticatedChannelsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/auth': typeof AuthRoute
+  '/channels': typeof AuthenticatedChannelsRouteWithChildren
   '/contacts': typeof AuthenticatedContactsRoute
+  '/dev': typeof AuthenticatedDevRoute
   '/organizations': typeof AuthenticatedOrganizationsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/timeline': typeof AuthenticatedTimelineRoute
+  '/channels/$channelId': typeof AuthenticatedChannelsChannelIdRoute
+  '/engagements/$engagementId': typeof AuthenticatedEngagementsEngagementIdRoute
+  '/invoices/$invoiceId': typeof AuthenticatedInvoicesInvoiceIdRoute
   '/opportunities/$oppId': typeof AuthenticatedOpportunitiesOppIdRoute
+  '/proposals/$proposalId': typeof AuthenticatedProposalsProposalIdRoute
+  '/engagements/': typeof AuthenticatedEngagementsIndexRoute
+  '/invoices/': typeof AuthenticatedInvoicesIndexRoute
   '/opportunities/': typeof AuthenticatedOpportunitiesIndexRoute
+  '/proposals/': typeof AuthenticatedProposalsIndexRoute
 }
 export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
+  '/channels': typeof AuthenticatedChannelsRouteWithChildren
   '/contacts': typeof AuthenticatedContactsRoute
+  '/dev': typeof AuthenticatedDevRoute
   '/organizations': typeof AuthenticatedOrganizationsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/timeline': typeof AuthenticatedTimelineRoute
   '/': typeof AuthenticatedIndexRoute
+  '/channels/$channelId': typeof AuthenticatedChannelsChannelIdRoute
+  '/engagements/$engagementId': typeof AuthenticatedEngagementsEngagementIdRoute
+  '/invoices/$invoiceId': typeof AuthenticatedInvoicesInvoiceIdRoute
   '/opportunities/$oppId': typeof AuthenticatedOpportunitiesOppIdRoute
+  '/proposals/$proposalId': typeof AuthenticatedProposalsProposalIdRoute
+  '/engagements': typeof AuthenticatedEngagementsIndexRoute
+  '/invoices': typeof AuthenticatedInvoicesIndexRoute
   '/opportunities': typeof AuthenticatedOpportunitiesIndexRoute
+  '/proposals': typeof AuthenticatedProposalsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/channels': typeof AuthenticatedChannelsRouteWithChildren
   '/_authenticated/contacts': typeof AuthenticatedContactsRoute
+  '/_authenticated/dev': typeof AuthenticatedDevRoute
   '/_authenticated/organizations': typeof AuthenticatedOrganizationsRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/timeline': typeof AuthenticatedTimelineRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/channels/$channelId': typeof AuthenticatedChannelsChannelIdRoute
+  '/_authenticated/engagements/$engagementId': typeof AuthenticatedEngagementsEngagementIdRoute
+  '/_authenticated/invoices/$invoiceId': typeof AuthenticatedInvoicesInvoiceIdRoute
   '/_authenticated/opportunities/$oppId': typeof AuthenticatedOpportunitiesOppIdRoute
+  '/_authenticated/proposals/$proposalId': typeof AuthenticatedProposalsProposalIdRoute
+  '/_authenticated/engagements/': typeof AuthenticatedEngagementsIndexRoute
+  '/_authenticated/invoices/': typeof AuthenticatedInvoicesIndexRoute
   '/_authenticated/opportunities/': typeof AuthenticatedOpportunitiesIndexRoute
+  '/_authenticated/proposals/': typeof AuthenticatedProposalsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/auth'
+    | '/channels'
     | '/contacts'
+    | '/dev'
     | '/organizations'
+    | '/settings'
+    | '/timeline'
+    | '/channels/$channelId'
+    | '/engagements/$engagementId'
+    | '/invoices/$invoiceId'
     | '/opportunities/$oppId'
+    | '/proposals/$proposalId'
+    | '/engagements/'
+    | '/invoices/'
     | '/opportunities/'
+    | '/proposals/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth'
+    | '/channels'
     | '/contacts'
+    | '/dev'
     | '/organizations'
+    | '/settings'
+    | '/timeline'
     | '/'
+    | '/channels/$channelId'
+    | '/engagements/$engagementId'
+    | '/invoices/$invoiceId'
     | '/opportunities/$oppId'
+    | '/proposals/$proposalId'
+    | '/engagements'
+    | '/invoices'
     | '/opportunities'
+    | '/proposals'
   id:
     | '__root__'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/channels'
     | '/_authenticated/contacts'
+    | '/_authenticated/dev'
     | '/_authenticated/organizations'
+    | '/_authenticated/settings'
+    | '/_authenticated/timeline'
     | '/_authenticated/'
+    | '/_authenticated/channels/$channelId'
+    | '/_authenticated/engagements/$engagementId'
+    | '/_authenticated/invoices/$invoiceId'
     | '/_authenticated/opportunities/$oppId'
+    | '/_authenticated/proposals/$proposalId'
+    | '/_authenticated/engagements/'
+    | '/_authenticated/invoices/'
     | '/_authenticated/opportunities/'
+    | '/_authenticated/proposals/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -137,11 +276,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/timeline': {
+      id: '/_authenticated/timeline'
+      path: '/timeline'
+      fullPath: '/timeline'
+      preLoaderRoute: typeof AuthenticatedTimelineRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/organizations': {
       id: '/_authenticated/organizations'
       path: '/organizations'
       fullPath: '/organizations'
       preLoaderRoute: typeof AuthenticatedOrganizationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dev': {
+      id: '/_authenticated/dev'
+      path: '/dev'
+      fullPath: '/dev'
+      preLoaderRoute: typeof AuthenticatedDevRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/contacts': {
@@ -151,11 +311,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedContactsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/channels': {
+      id: '/_authenticated/channels'
+      path: '/channels'
+      fullPath: '/channels'
+      preLoaderRoute: typeof AuthenticatedChannelsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/proposals/': {
+      id: '/_authenticated/proposals/'
+      path: '/proposals'
+      fullPath: '/proposals/'
+      preLoaderRoute: typeof AuthenticatedProposalsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/opportunities/': {
       id: '/_authenticated/opportunities/'
       path: '/opportunities'
       fullPath: '/opportunities/'
       preLoaderRoute: typeof AuthenticatedOpportunitiesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/invoices/': {
+      id: '/_authenticated/invoices/'
+      path: '/invoices'
+      fullPath: '/invoices/'
+      preLoaderRoute: typeof AuthenticatedInvoicesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/engagements/': {
+      id: '/_authenticated/engagements/'
+      path: '/engagements'
+      fullPath: '/engagements/'
+      preLoaderRoute: typeof AuthenticatedEngagementsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/proposals/$proposalId': {
+      id: '/_authenticated/proposals/$proposalId'
+      path: '/proposals/$proposalId'
+      fullPath: '/proposals/$proposalId'
+      preLoaderRoute: typeof AuthenticatedProposalsProposalIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/opportunities/$oppId': {
@@ -165,23 +360,78 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOpportunitiesOppIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/invoices/$invoiceId': {
+      id: '/_authenticated/invoices/$invoiceId'
+      path: '/invoices/$invoiceId'
+      fullPath: '/invoices/$invoiceId'
+      preLoaderRoute: typeof AuthenticatedInvoicesInvoiceIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/engagements/$engagementId': {
+      id: '/_authenticated/engagements/$engagementId'
+      path: '/engagements/$engagementId'
+      fullPath: '/engagements/$engagementId'
+      preLoaderRoute: typeof AuthenticatedEngagementsEngagementIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/channels/$channelId': {
+      id: '/_authenticated/channels/$channelId'
+      path: '/$channelId'
+      fullPath: '/channels/$channelId'
+      preLoaderRoute: typeof AuthenticatedChannelsChannelIdRouteImport
+      parentRoute: typeof AuthenticatedChannelsRoute
+    }
   }
 }
 
+interface AuthenticatedChannelsRouteChildren {
+  AuthenticatedChannelsChannelIdRoute: typeof AuthenticatedChannelsChannelIdRoute
+}
+
+const AuthenticatedChannelsRouteChildren: AuthenticatedChannelsRouteChildren = {
+  AuthenticatedChannelsChannelIdRoute: AuthenticatedChannelsChannelIdRoute,
+}
+
+const AuthenticatedChannelsRouteWithChildren =
+  AuthenticatedChannelsRoute._addFileChildren(
+    AuthenticatedChannelsRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedChannelsRoute: typeof AuthenticatedChannelsRouteWithChildren
   AuthenticatedContactsRoute: typeof AuthenticatedContactsRoute
+  AuthenticatedDevRoute: typeof AuthenticatedDevRoute
   AuthenticatedOrganizationsRoute: typeof AuthenticatedOrganizationsRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedTimelineRoute: typeof AuthenticatedTimelineRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedEngagementsEngagementIdRoute: typeof AuthenticatedEngagementsEngagementIdRoute
+  AuthenticatedInvoicesInvoiceIdRoute: typeof AuthenticatedInvoicesInvoiceIdRoute
   AuthenticatedOpportunitiesOppIdRoute: typeof AuthenticatedOpportunitiesOppIdRoute
+  AuthenticatedProposalsProposalIdRoute: typeof AuthenticatedProposalsProposalIdRoute
+  AuthenticatedEngagementsIndexRoute: typeof AuthenticatedEngagementsIndexRoute
+  AuthenticatedInvoicesIndexRoute: typeof AuthenticatedInvoicesIndexRoute
   AuthenticatedOpportunitiesIndexRoute: typeof AuthenticatedOpportunitiesIndexRoute
+  AuthenticatedProposalsIndexRoute: typeof AuthenticatedProposalsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedChannelsRoute: AuthenticatedChannelsRouteWithChildren,
   AuthenticatedContactsRoute: AuthenticatedContactsRoute,
+  AuthenticatedDevRoute: AuthenticatedDevRoute,
   AuthenticatedOrganizationsRoute: AuthenticatedOrganizationsRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedTimelineRoute: AuthenticatedTimelineRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedEngagementsEngagementIdRoute:
+    AuthenticatedEngagementsEngagementIdRoute,
+  AuthenticatedInvoicesInvoiceIdRoute: AuthenticatedInvoicesInvoiceIdRoute,
   AuthenticatedOpportunitiesOppIdRoute: AuthenticatedOpportunitiesOppIdRoute,
+  AuthenticatedProposalsProposalIdRoute: AuthenticatedProposalsProposalIdRoute,
+  AuthenticatedEngagementsIndexRoute: AuthenticatedEngagementsIndexRoute,
+  AuthenticatedInvoicesIndexRoute: AuthenticatedInvoicesIndexRoute,
   AuthenticatedOpportunitiesIndexRoute: AuthenticatedOpportunitiesIndexRoute,
+  AuthenticatedProposalsIndexRoute: AuthenticatedProposalsIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

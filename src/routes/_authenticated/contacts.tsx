@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import type { Contact } from "@/lib/db-types";
+import { assertUpdatedRows } from "@/lib/mutation-guards";
 
 type ContactRow = Contact & { Organization: { name: string | null } | null };
 
@@ -28,8 +29,8 @@ function ContactsPage() {
   const upsert = useMutation({
     mutationFn: async (payload: Partial<Contact>) => {
       if (d.editing) {
-        const { error } = await supabase.from("Contact").update(payload).eq("id", d.editing.id);
-        if (error) throw error;
+        const result = await supabase.from("Contact").update(payload).eq("id", d.editing.id).select("id");
+        assertUpdatedRows(result, "Contact");
       } else {
         const { error } = await supabase.from("Contact").insert(payload);
         if (error) throw error;

@@ -1,7 +1,10 @@
 // Hand-written types matching the external Supabase project schema.
-// Table names are PascalCase singular; ids are bigint (number).
+// Table names are PascalCase singular; ids are bigint (number) unless noted.
+// user_id is auto-populated by DB default (auth.uid()) on insert.
 
-export type Organization = {
+type UserOwned = { user_id: string | null };
+
+export type Organization = UserOwned & {
   id: number;
   created_at: string;
   name: string | null;
@@ -10,7 +13,7 @@ export type Organization = {
   notes: string | null;
 };
 
-export type Contact = {
+export type Contact = UserOwned & {
   id: number;
   created_at: string;
   org_id: number | null;
@@ -22,7 +25,7 @@ export type Contact = {
   notes: string | null;
 };
 
-export type Channel = {
+export type Channel = UserOwned & {
   id: number;
   created_at: string;
   name: string | null;
@@ -30,11 +33,11 @@ export type Channel = {
   notes: string | null;
 };
 
-export type Opportunity = {
+export type Opportunity = UserOwned & {
   id: number;
   created_at: string;
   org_id: number | null;
-  channel_id: number | null;
+  source_channel_id: number | null;
   title: string | null;
   stage: string | null;
   status: string | null;
@@ -45,7 +48,15 @@ export type Opportunity = {
   notes: string | null;
 };
 
-export type Task = {
+export type OpportunityContact = UserOwned & {
+  id: number;
+  created_at: string;
+  opp_id: number | null;
+  contact_id: number | null;
+  role: string | null;
+};
+
+export type Task = UserOwned & {
   id: number;
   created_at: string;
   opp_id: number | null;
@@ -56,21 +67,65 @@ export type Task = {
   notes: string | null;
 };
 
-export type Activity = {
+// Activity is polymorphic: exactly one of channel_id / opp_id / engagement_id /
+// proposal_id / invoice_id is non-null (enforced by DB check constraint).
+export type Activity = UserOwned & {
   id: number;
   created_at: string;
   opp_id: number | null;
-  contact_id: number | null;
-  activity_type: string | null;
+  channel_id: number | null;
+  engagement_id: number | null;
+  proposal_id: number | null;
+  invoice_id: number | null;
+  activity_master_id: string | null;
   activity_date: string | null;
   summary: string | null;
   details: string | null;
 };
 
-export type Engagement = {
+export type ActivityMaster = {
+  id: string;
+  name: string;
+  category: string;
+  changes_stage: boolean;
+  target_stage: string | null;
+  sort_order: number;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ActivityMasterEntity = {
+  id: string;
+  activity_master_id: string;
+  entity_type: "Channel" | "Opportunity" | "Proposal" | "Engagement" | "Invoice";
+  created_at: string;
+};
+
+export type Proposal = UserOwned & {
   id: number;
   created_at: string;
   opp_id: number | null;
+  version: number | null;
+  amount: number | null;
+  sent_date: string | null;
+  status: string | null;
+  notes: string | null;
+  title: string | null;
+  scope: string | null;
+  commercial_type: string | null;
+  proposed_amount: number | null;
+  currency: string | null;
+  start_date: string | null;
+  end_date: string | null;
+  valid_until: string | null;
+  proposal_document: string | null;
+  updated_at: string | null;
+};
+
+export type Engagement = UserOwned & {
+  id: number;
+  created_at: string;
   proposal_id: number | null;
   title: string | null;
   start_date: string | null;
@@ -83,10 +138,9 @@ export type Engagement = {
   updated_at: string | null;
 };
 
-export type Invoice = {
+export type Invoice = UserOwned & {
   id: number;
   created_at: string;
-  proposal_id: number | null;
   engagement_id: number | null;
   invoice_no: number | null;
   invoice_date: string | null;
@@ -105,6 +159,29 @@ export type Invoice = {
   updated_at: string | null;
 };
 
+export type Payment = UserOwned & {
+  id: number;
+  created_at: string;
+  invoice_id: number | null;
+  payment_date: string | null;
+  amount: number | null;
+  mode: string | null;
+  reference_number: string | null;
+  bank_txn_id: string | null;
+  notes: string | null;
+  updated_at: string | null;
+};
+
+export type Expense = UserOwned & {
+  id: number;
+  created_at: string;
+  expense_date: string | null;
+  category: string | null;
+  vendor: string | null;
+  amount: number | null;
+  notes: string | null;
+};
+
 type Row<T> = { Row: T; Insert: Partial<T>; Update: Partial<T>; Relationships: [] };
 
 export type Db = {
@@ -114,10 +191,16 @@ export type Db = {
       Contact: Row<Contact>;
       Channel: Row<Channel>;
       Opportunity: Row<Opportunity>;
+      OpportunityContact: Row<OpportunityContact>;
       Task: Row<Task>;
       Activity: Row<Activity>;
+      ActivityMaster: Row<ActivityMaster>;
+      ActivityMasterEntity: Row<ActivityMasterEntity>;
+      Proposal: Row<Proposal>;
       Engagement: Row<Engagement>;
       Invoice: Row<Invoice>;
+      Payment: Row<Payment>;
+      Expense: Row<Expense>;
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
