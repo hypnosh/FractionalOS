@@ -8,7 +8,7 @@
 # Deploy with:  bunx wrangler deploy
 # Preview with: bunx wrangler dev
 
-name = "nexus-cxo"
+name = "fractionalos"
 main = ".output/server/index.mjs"
 compatibility_date = "2025-05-01"
 compatibility_flags = ["nodejs_compat"]
